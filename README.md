@@ -1,13 +1,11 @@
-# Astronomer (Astro) Installation Guide for Windows
+# Airflow ETL Pipeline with PostgreSQL and API Integration on Astro Cloud
 
 ## What is Astronomer (Astro)?
 
 **Astronomer (Astro)** is a managed platform for Apache Airflow that simplifies the deployment, scaling, and management of Airflow workflows. Key features include:
 
 - **Managed Infrastructure**: Simplified Airflow deployment and scaling
-- **Enterprise Features**: Built-in monitoring, security, and automation
 - **Docker-Based Architecture**: Runs Airflow within Docker containers
-- **Enhanced Developer Experience**: Streamlined CLI and deployment workflows
 
 **Official Website**: [https://www.astronomer.io/](https://www.astronomer.io/)
 
@@ -16,14 +14,12 @@
 ## Prerequisites
 
 ### System Requirements
-
 - **Operating System**: Windows 10 or later
 
 ### Required Software
-
-**Docker Desktop for Windows**
-- Download: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-- Required for running Airflow containers
+- **Docker Desktop for Windows**
+  - Download: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+  - Required for running Airflow containers
 
 ---
 
@@ -45,7 +41,8 @@
    ```
 
 **Expected Result**: A version number (e.g., `v1.7.11261`)
-<img width="1119" height="638" alt="image" src="https://github.com/user-attachments/assets/b6fb4f68-6843-4de9-939c-00b563662ef2" />
+
+![winget version check](https://github.com/user-attachments/assets/b6fb4f68-6843-4de9-939c-00b563662ef2)
 
 - ✅ **If you see a version number**, proceed to **Step 5**
 - ❌ **If you see an error** ("winget is not recognized"), continue to **Step 3**
@@ -56,7 +53,7 @@ If winget is not recognized, follow these substeps:
 
 #### 3.1 Install App Installer from Microsoft Store
 
-1. Visit the Microsoft Store link: [App Installer](https://apps.microsoft.com/detail/9nblggh4nns1?hl=en-US&gl=IN)
+1. Visit the Microsoft Store: [App Installer](https://apps.microsoft.com/detail/9nblggh4nns1?hl=en-US&gl=IN)
 2. Click "Get" or "Install"
 3. Wait for installation to complete
 
@@ -66,7 +63,8 @@ After installation, Windows creates the following folder:
 ```
 C:\Users\<your-username>\AppData\Local\Microsoft\WindowsApps
 ```
-<img width="1654" height="960" alt="image" src="https://github.com/user-attachments/assets/965d0030-a438-4b69-ae6d-1969cb206a99" />
+
+![WindowsApps directory](https://github.com/user-attachments/assets/965d0030-a438-4b69-ae6d-1969cb206a99)
 
 This directory contains `winget.exe`.
 
@@ -88,8 +86,9 @@ winget --version
    - Press `Win + X` and select "System"
    - Click "Advanced system settings"
    - Click "Environment Variables"
-   - *Or directly search for "environment" in the Windows search bar and select "Edit environment variables"*
-  <img width="820" height="442" alt="image" src="https://github.com/user-attachments/assets/316da660-2a8d-4d59-9c48-775de6e63ce6" />
+   - *Or search for "environment" in Windows search and select "Edit environment variables"*
+
+   ![Environment Variables dialog](https://github.com/user-attachments/assets/316da660-2a8d-4d59-9c48-775de6e63ce6)
 
 2. **Edit User PATH Variable**:
    - In the "User variables" section, select `Path`
@@ -100,7 +99,8 @@ winget --version
      C:\Users\<your-username>\AppData\Local\Microsoft\WindowsApps
      ```
      *(Replace `<your-username>` with your actual Windows username)*
-     <img width="1039" height="730" alt="image" src="https://github.com/user-attachments/assets/ae6481e3-2338-4814-b600-db210a2e307b" />
+
+   ![Editing PATH variable](https://github.com/user-attachments/assets/ae6481e3-2338-4814-b600-db210a2e307b)
 
    - Click "OK" on all dialogs
 
@@ -148,7 +148,7 @@ winget install -e --id Astronomer.Astro
 
 ## Step 6: Verify Astro CLI Installation
 
-After restarting your terminal, verify that the Astro CLI is properly installed.
+After installation completes, **restart your terminal** to ensure the PATH is updated.
 
 ### 6.1 Check Astro Version
 
@@ -159,7 +159,8 @@ astro version
 ```
 
 **Expected Output**:
-<img width="907" height="578" alt="image" src="https://github.com/user-attachments/assets/e2aca339-568f-40a2-a0af-9eb55cb36de4" />
+
+![Astro version output](https://github.com/user-attachments/assets/e2aca339-568f-40a2-a0af-9eb55cb36de4)
 
 ✅ **Success**: If you see version information, the Astro CLI is successfully installed and ready to use.
 
@@ -169,21 +170,149 @@ astro version
 
 ## Getting Started with Astro
 
-Once installation is complete, make sure Docker is still running, then open VS Code.
+Once installation is complete, ensure Docker Desktop is running, then open VS Code or Command Prompt.
 
-1. **Initialize a new Airflow project**:
+### Initialize a New Airflow Project
+
+1. **Create a new directory** for your project and navigate to it
+2. **Initialize Astro project**:
    ```cmd
    astro dev init
    ```
-   <img width="1011" height="643" alt="image" src="https://github.com/user-attachments/assets/40bc8d8e-eb87-479a-bcc9-0aff4fa6b5f1" />
 
-2. **Start Airflow locally**:
+   ![Astro dev init](https://github.com/user-attachments/assets/40bc8d8e-eb87-479a-bcc9-0aff4fa6b5f1)
+
+3. **Start Airflow locally**:
    ```cmd
    astro dev start
    ```
-<img width="1126" height="725" alt="image" src="https://github.com/user-attachments/assets/8348ef0a-21bf-4a1e-b7a7-ada2f6cc30c1" />
 
-3. **Access Airflow UI**: Navigate to `http://localhost:8080` in your browser. Since we haven't coded or created any DAGs yet, this will show an error. Don't worry—this is normal and we'll fix it later.
-<img width="1874" height="897" alt="image" src="https://github.com/user-attachments/assets/ced2040c-dc28-4f67-9bea-3a767f30ee25" />
+   ![Astro dev start](https://github.com/user-attachments/assets/8348ef0a-21bf-4a1e-b7a7-ada2f6cc30c1)
 
-For more information, visit the [Astronomer Documentation](https://docs.astronomer.io/).
+4. **Access Airflow UI**: Navigate to `http://localhost:8080` in your browser
+   - Default credentials: `admin` / `admin`
+   - **Note**: If you haven't created any DAGs yet, you may see errors or an empty DAG list. This is normal.
+
+   ![Airflow UI initial view](https://github.com/user-attachments/assets/ced2040c-dc28-4f67-9bea-3a767f30ee25)
+
+---
+
+## Configuring Airflow Connections
+
+To connect Airflow to external systems (databases, APIs), you need to configure connections.
+
+### Setting Up a PostgreSQL Connection
+
+1. **Access Admin Panel**:
+   - In the Airflow UI, click **Admin** in the left sidebar
+   - Click **Connections**
+   - Click the **+** button to add a new connection
+
+   ![Admin Connections menu](https://github.com/user-attachments/assets/14000a4f-c4c9-4b2a-87ec-47c62f962d7b)
+
+2. **Configure PostgreSQL Connection**:
+   - **Connection Id**: `my_postgres_connection` (or match what's defined in your `docker-compose.yml`)
+   - **Connection Type**: Select `Postgres`
+   - **Host**: Copy the container name from Docker Desktop
+     - Open Docker Desktop
+     - Find your PostgreSQL container
+     - Copy the container name/hostname
+
+   ![Docker container name](https://github.com/user-attachments/assets/d878ecdf-5c2e-4272-baf8-f630479017ec)
+
+   - **Database**: Your database name
+   - **Login**: Your database username
+   - **Password**: Your database password
+   - **Port**: `5432` (default PostgreSQL port)
+
+   ![PostgreSQL connection configuration](https://github.com/user-attachments/assets/26958ed7-cfba-45cc-9806-e904d11da2c6)
+
+3. Click **Save**
+
+### Setting Up an HTTP/API Connection
+
+1. **Add New Connection**:
+   - Click the **+** button again
+   - **Connection Id**: Name your API connection (e.g., `nasa_api`)
+   - **Connection Type**: Select `HTTP`
+
+2. **Configure API Connection**:
+   - **Host**: Your API base URL
+   - **Extra**: Paste any additional configuration in JSON format (API keys, headers, etc.)
+
+   ![HTTP API connection](https://github.com/user-attachments/assets/aec157f4-39df-433e-99fa-f9bf842dbd18)
+
+3. Click **Save**
+
+---
+
+## Running Your First DAG
+
+After configuring connections and creating your DAG files:
+
+1. **Trigger the DAG** in the Airflow UI
+2. **Monitor execution**: Watch as tasks turn green upon successful completion
+
+   ![Successful DAG run](https://github.com/user-attachments/assets/dfa81deb-6514-4e7c-b5b3-c1ea512c5525)
+
+### Viewing Task Output
+
+1. **Click on a task** (e.g., `extract_apod`)
+
+   ![Task details](https://github.com/user-attachments/assets/4fbef749-c66e-4a63-8ec4-5001863c8adf)
+
+2. **Click on XCom** to view data passed between tasks
+
+   ![XCom data view](https://github.com/user-attachments/assets/7610808b-c807-4ee4-bbe9-4aa57221a392)
+
+---
+
+## Connecting to Your Database
+
+To view and query your PostgreSQL database, you can use **DBeaver** or any other database client.
+
+### Using DBeaver
+
+1. Download and install DBeaver: [https://dbeaver.io/download/](https://dbeaver.io/download/)
+2. Create a new PostgreSQL connection
+3. Use the same connection details you configured in Airflow
+4. Connect and explore your data
+
+---
+
+## Conclusion
+
+You've successfully installed Astronomer (Astro) and set up Apache Airflow on Windows! You can now:
+
+- Create and manage data pipelines using DAGs
+- Connect to databases and APIs
+- Monitor and debug workflow execution
+- Scale your data orchestration needs
+
+### Additional Resources
+
+- **Astronomer Documentation**: [https://docs.astronomer.io/](https://docs.astronomer.io/)
+- **Apache Airflow Documentation**: [https://airflow.apache.org/docs/](https://airflow.apache.org/docs/)
+- **Astronomer Academy**: [https://academy.astronomer.io/](https://academy.astronomer.io/)
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: `astro` command not recognized
+- **Solution**: Restart your terminal after installation. Ensure Docker Desktop is running.
+
+**Issue**: Docker containers fail to start
+- **Solution**: Check Docker Desktop is running and has sufficient resources allocated (Settings → Resources)
+
+**Issue**: Cannot connect to `localhost:8080`
+- **Solution**: Verify Docker containers are running with `docker ps`. Check for port conflicts.
+
+**Issue**: Connection test fails
+- **Solution**: Double-check connection credentials and host names. Ensure target services are running.
+
+---
+
+**Thank you for using this guide!** If you encounter any issues or have suggestions for improvements, please provide feedback.
